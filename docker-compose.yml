@@ -1,0 +1,26 @@
+services:
+  dynamodb:
+    build:
+      context: ./docker/dynamodb-local
+      dockerfile: Dockerfile
+    container_name: dynamodb-local
+    ports:
+        - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+
+volumes:
+  dynamodb_data:
+  keycloak_data:
