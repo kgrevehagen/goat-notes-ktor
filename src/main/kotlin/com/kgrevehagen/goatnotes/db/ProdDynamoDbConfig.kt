@@ -9,9 +9,9 @@ import io.ktor.server.config.ApplicationConfig
 internal class ProdDynamoDbConfig(private val config: ApplicationConfig) : DynamoDbConfig {
 
     override val dynamoDbClient = DynamoDbClient {
-        region = config.property("dynamodb.region").getString()
+        region = config.property("aws.dynamodb.region").getString()
         credentialsProvider =
-            ProfileCredentialsProvider(profileName = config.property("dynamodb.profileName").getString())
+            ProfileCredentialsProvider(profileName = config.property("aws.profileName").getString())
     }
 
     @OptIn(ExperimentalApi::class)

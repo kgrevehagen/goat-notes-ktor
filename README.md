@@ -1,47 +1,74 @@
-# goat-notes-ktor
+# Goat Notes Ktor
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+A Kotlin Ktor backend for note-taking, using DynamoDB and AWS Cognito/Keycloak for authentication.
+For now, we use Keycloak for local dev and Cognito for production. This can be changed.
 
-Here are some useful links to get you started:
+---
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need
-  to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+## Prerequisites
 
-## Features
+- Docker
+- Java 21+
 
-Here's a list of features included in this project:
+---
 
-| Name                                                                   | Description                                                                        |
-| ------------------------------------------------------------------------|------------------------------------------------------------------------------------ |
-| [Routing](https://start.ktor.io/p/routing)                             | Provides a structured routing DSL                                                  |
-| [Authentication](https://start.ktor.io/p/auth)                         | Provides extension point for handling the Authorization header                     |
-| [Authentication JWT](https://start.ktor.io/p/auth-jwt)                 | Handles JSON Web Token (JWT) bearer authentication scheme                          |
-| [Content Negotiation](https://start.ktor.io/p/content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
-| [kotlinx.serialization](https://start.ktor.io/p/kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
-| [Kafka](https://start.ktor.io/p/ktor-server-kafka)                     | Adds Kafka support to your application                                             |
-| [Exposed](https://start.ktor.io/p/exposed)                             | Adds Exposed database to your application                                          |
-| [Koin](https://start.ktor.io/p/koin)                                   | Provides dependency injection                                                      |
+## Local Development Setup
 
-## Building & Running
+1. **Spin up containers**
 
-To build or run the project, use one of the following tasks:
+   ```bash
+   docker compose up -d
+   ```
 
-| Task                          | Description                                                          |
-| -------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`              | Run the tests                                                        |
-| `./gradlew build`             | Build everything                                                     |
-| `buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `run`                         | Run the server                                                       |
-| `runDocker`                   | Run using the local docker image                                     |
+   This starts DynamoDB Local and Keycloak containers.
 
-If the server starts successfully, you'll see the following output:
 
-```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
-```
+2. **Create DynamoDB Table**
 
+   Wait until DynamoDB is running, then execute:
+
+   ```bash
+   sh scripts/create-table.sh
+   ```
+    This is a one-time setup, we persist the data in our containers.
+
+
+3. **Configure Keycloak**
+
+    - Set up realms, clients, and users as needed. This is a one-time setup, we persist the data in our containers.
+
+
+4. **Run the Application**
+
+   ```bash
+   ./gradlew run --args="-config=application.conf -config=application-dev.conf"
+   ```
+   Or set it up with run configurations in IntelliJ and press the Play button.
+
+---
+
+## Production/Cloud Deployment
+
+1. **Provision DynamoDB and AWS Cognito**
+
+    - Use AWS Console or CLI to create the required table.
+    - Set up clients, and users as needed.
+
+
+2. **Environment Variables**
+
+   Set the following environment variables (e.g., in a `.env` file):
+
+   ```
+   JWT_ISSUER=<your jwt issuer>
+   JWT_JWKS_URL=<your jwt jwks url>
+   AWS_PROFILE_NAME=<your aws profile name>
+   AWS_DYNAMODB_REGION=<your dynamodb region>
+   ```
+
+
+3. **Run the Application**
+
+   ```bash
+   ./gradlew run --args="-Denv=prod"
+   ```

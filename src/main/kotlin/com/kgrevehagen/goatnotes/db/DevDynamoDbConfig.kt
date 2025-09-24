@@ -10,12 +10,12 @@ import io.ktor.server.config.ApplicationConfig
 internal class DevDynamoDbConfig(private val config: ApplicationConfig) : DynamoDbConfig {
 
     override val dynamoDbClient = DynamoDbClient {
-        region = config.property("dynamodb.region").getString()
-        endpointUrl = Url.parse(config.property("dynamodb.endpoint").getString())
+        region = config.property("aws.dynamodb.region").getString()
+        endpointUrl = Url.parse(config.property("aws.dynamodb.endpoint").getString())
 
         credentialsProvider = StaticCredentialsProvider.invoke {
-            accessKeyId = config.property("dynamodb.accessKeyId").getString()
-            secretAccessKey = config.property("dynamodb.secretAccessKey").getString()
+            accessKeyId = config.property("aws.dynamodb.accessKeyId").getString()
+            secretAccessKey = config.property("aws.dynamodb.secretAccessKey").getString()
         }
     }
 
