@@ -1,13 +1,8 @@
-val koin_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-val aws_sdk_version: String by project
-
 plugins {
-    kotlin("jvm") version "2.1.21"
-    id("io.ktor.plugin") version "3.1.3"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.21"
-    id("aws.sdk.kotlin.hll.dynamodbmapper.schema.generator") version "1.5.42-beta"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.aws.dynamodbmapper)
 }
 
 group = "com.kgrevehagen"
@@ -24,20 +19,22 @@ repositories {
 
 dependencies {
     implementation(platform(awssdk.bom))
+
     implementation(awssdk.services.dynamodb)
-    implementation("aws.sdk.kotlin:dynamodb-mapper:$aws_sdk_version-beta")
-    implementation("aws.sdk.kotlin:dynamodb-mapper-annotations:$aws_sdk_version-beta")
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-auth")
-    implementation("io.ktor:ktor-server-auth-jwt")
-    implementation("io.ktor:ktor-server-resources")
-    implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-server-status-pages")
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
-    implementation("io.insert-koin:koin-ktor:$koin_version")
-    implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation(libs.aws.dynamodbmapper)
+    implementation(libs.aws.dynamodbmapper.annotations)
+    implementation(libs.koin.ktor)
+    implementation(libs.koin.logger)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.auth.jwt)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.resources)
+    implementation(libs.ktor.server.status.pages)
+    implementation(libs.logback)
+
+    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.ktor.server.test.host)
 }
