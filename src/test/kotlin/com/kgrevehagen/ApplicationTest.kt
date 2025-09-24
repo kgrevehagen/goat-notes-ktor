@@ -1,37 +1,25 @@
 package com.kgrevehagen
 
-import io.ktor.client.request.*
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import com.kgrevehagen.goatnotes.module
+import io.ktor.client.request.get
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.testing.testApplication
 import kotlin.test.Test
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 class ApplicationTest {
 
     @Test
     fun testRoot() = testApplication {
+        environment {
+            config = ApplicationConfig("src/main/resources/application-dev.conf")
+        }
         application {
             module()
         }
         client.get("/").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+            assertEquals(HttpStatusCode.NotFound, status)
         }
     }
-
-    @Test
-    fun testNewEndpoint() = testApplication {
-        application {
-            module()
-        }
-
-        val response = client.get("/test")
-
-        assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("html", response.contentType()?.contentSubtype)
-        assertContains(response.bodyAsText(), "Hello From Ktor")
-    }
-
 }
