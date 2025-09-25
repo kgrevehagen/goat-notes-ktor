@@ -14,7 +14,13 @@ For now, we use Keycloak for local dev and Cognito for production. This can be c
 
 ## Local Development Setup
 
-1. **Spin up containers**
+1. Create shared keycloak data with:
+```bash
+docker volume create goat-notes-dynamodb-data && docker volume create shared-keycloak-data
+```
+This makes it so that the data in DynamoDB Local and Keycloak persists between container restarts, and we can share the Keycloak data between containers. E.g. the equivalent of this app that is using Spring Boot, or if we want to keep the same keycloak settings for multiple projects.
+
+2. **Spin up containers**
 
    ```bash
    docker compose up -d
@@ -23,7 +29,7 @@ For now, we use Keycloak for local dev and Cognito for production. This can be c
    This starts DynamoDB Local and Keycloak containers.
 
 
-2. **Create DynamoDB Table**
+3. **Create DynamoDB Table**
 
    Wait until DynamoDB is running, then execute:
 
@@ -33,12 +39,12 @@ For now, we use Keycloak for local dev and Cognito for production. This can be c
     This is a one-time setup, we persist the data in our containers.
 
 
-3. **Configure Keycloak**
+4. **Configure Keycloak**
 
     - Set up realms, clients, and users as needed. This is a one-time setup, we persist the data in our containers.
 
 
-4. **Run the Application**
+5. **Run the Application**
 
    ```bash
    ./gradlew run --args="-config=application.conf -config=application-dev.conf"

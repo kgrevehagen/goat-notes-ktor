@@ -23,4 +23,8 @@ services:
 
 volumes:
   dynamodb_data:
+    external: true
+    name: goat-notes-dynamodb-data
   keycloak_data:
+    external: true
+    name: shared-keycloak-data
