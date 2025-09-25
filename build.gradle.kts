@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.resources)
     implementation(libs.ktor.server.status.pages)
+    implementation(libs.kotlin.logging)
     implementation(libs.logback)
 
     testImplementation(libs.kotlin.test.junit)
