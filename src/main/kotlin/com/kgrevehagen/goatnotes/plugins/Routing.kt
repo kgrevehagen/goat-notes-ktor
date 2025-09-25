@@ -5,6 +5,7 @@ import com.kgrevehagen.goatnotes.notes.routing.notesRoutes
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.resources.Resources
 import io.ktor.server.response.respond
@@ -13,6 +14,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
     install(Resources)
+    install(CallLogging)
     install(StatusPages) {
         exception<Throwable> { call, cause ->
             cause.printStackTrace()
