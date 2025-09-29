@@ -1,13 +1,11 @@
 package com.kgrevehagen.goatnotes.notes.routing
 
-import com.kgrevehagen.goatnotes.notes.service.NotesService
 import com.kgrevehagen.goatnotes.notes.model.CreateNoteRequest
+import com.kgrevehagen.goatnotes.notes.service.NotesService
+import com.kgrevehagen.goatnotes.plugins.withUserIdOrForbidden
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
 import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.jwt.JWTPrincipal
-import io.ktor.server.auth.principal
 import io.ktor.server.request.receive
 import io.ktor.server.resources.delete
 import io.ktor.server.resources.get
@@ -51,11 +49,4 @@ internal fun Route.notesRoutes(notesService: NotesService) {
             }
         }
     }
-}
-
-suspend fun ApplicationCall.withUserIdOrForbidden(block: suspend (userId: String) -> Unit) {
-    val principal = principal<JWTPrincipal>()
-    principal?.subject?.let { userId ->
-        block(userId)
-    } ?: respond(HttpStatusCode.Forbidden)
 }
