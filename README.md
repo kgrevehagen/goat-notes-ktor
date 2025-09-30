@@ -44,7 +44,12 @@ This makes it so that the data in DynamoDB Local and Keycloak persists between c
     - Set up realms, clients, and users as needed. This is a one-time setup, we persist the data in our containers.
 
 
-5. **Run the Application**
+5. **Run the Application with environment variables**
+
+   ```
+   OAUTH_CLIENT_ID=...
+   OAUTH_CLIENT_SECRET=...
+   ```
 
    ```bash
    ./gradlew run --args="-config=application.conf -config=application-dev.conf"
@@ -77,7 +82,6 @@ This makes it so that the data in DynamoDB Local and Keycloak persists between c
    OAUTH_LOGOUT_URL=...
    OAUTH_CLIENT_ID=...
    OAUTH_CLIENT_SECRET=...
-   OAUTH_SCOPES=...
    ```
 
 
