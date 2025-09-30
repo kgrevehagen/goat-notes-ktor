@@ -1,8 +1,8 @@
 package com.kgrevehagen.goatnotes.plugins
 
 import com.kgrevehagen.goatnotes.notes.routing.notesRoutes
-import com.kgrevehagen.goatnotes.notes.routing.uiNotesRoutes
 import com.kgrevehagen.goatnotes.notes.service.NotesService
+import com.kgrevehagen.goatnotes.web.webRoutes
 import freemarker.cache.ClassTemplateLoader
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.http.HttpStatusCode
@@ -42,7 +42,7 @@ fun Application.configureRouting() {
 
     routing {
         notesRoutes(notesService)
-        uiNotesRoutes(notesService)
+        webRoutes(notesService)
     }
 }
 

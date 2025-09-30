@@ -1,4 +1,4 @@
-package com.kgrevehagen.goatnotes.notes.routing
+package com.kgrevehagen.goatnotes.web
 
 import com.kgrevehagen.goatnotes.notes.model.CreateNoteRequest
 import com.kgrevehagen.goatnotes.notes.service.NotesService
@@ -21,7 +21,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.util.date.GMTDate
 
-internal fun Route.uiNotesRoutes(notesService: NotesService) {
+internal fun Route.webRoutes(notesService: NotesService) {
     install(DoubleReceive)
 
     authenticate("oauth", "oauth-jwt") {
@@ -39,7 +39,7 @@ internal fun Route.uiNotesRoutes(notesService: NotesService) {
             }
         }
 
-        route("/ui/notes") {
+        route("/web") {
             get {
                 call.withPrincipalOrForbidden {
                     it.subject?.let { userId ->
@@ -75,7 +75,7 @@ internal fun Route.uiNotesRoutes(notesService: NotesService) {
                             }
                         }
                     }
-                    call.respondRedirect("/ui/notes")
+                    call.respondRedirect("/web")
                 }
             }
         }

@@ -110,7 +110,7 @@
 <body>
 <div class="container">
     <h1>Notes for ${name}</h1>
-    <form class="create-note-form" method="post" action="/ui/notes">
+    <form class="create-note-form" method="post" action="/web">
         <input type="hidden" name="action" value="create"/>
         <textarea name="noteText" placeholder="Enter your note" required></textarea>
         <button type="submit">Create Note</button>
@@ -123,7 +123,7 @@
                 <div style="display: flex; align-items: center; font-size:0.95em; color:#888; margin-top:10px; width: 100%; justify-content: flex-end; gap: 0.7em;">
                     ${note.createdAt?number_to_datetime}
                     <span style="font-size:1.5em; color:#bbb;">&bull;</span>
-                    <form method="post" action="/ui/notes" style="display:inline; margin:0;">
+                    <form method="post" action="/web" style="display:inline; margin:0;">
                         <input type="hidden" name="action" value="delete"/>
                         <input type="hidden" name="noteId" value="${note.noteId}"/>
                         <button type="submit"
