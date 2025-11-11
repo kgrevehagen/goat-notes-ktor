@@ -34,7 +34,7 @@ This makes it so that the data in DynamoDB Local and Keycloak persists between c
    Wait until DynamoDB is running, then execute:
 
    ```bash
-   sh scripts/create-table.sh
+   sh scripts/create-tables.sh
    ```
     This is a one-time setup, we persist the data in our containers.
 
